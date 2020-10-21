@@ -20,6 +20,8 @@ def main():
             client_socket.send(bytes(client_input, constants.FORMAT))
 
         print(client_socket.recv(constants.RCV_BUFFER_SIZE).decode(constants.FORMAT))
+        if command == constants.LIST_ALL or command == constants.LIST_BUCKETS or command == constants.LIST_FILES:
+            print(client_socket.recv(constants.RCV_BUFFER_SIZE).decode(constants.FORMAT))
 
     client_socket.close()
 

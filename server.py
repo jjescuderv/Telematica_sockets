@@ -1,4 +1,5 @@
 import os
+import json
 import socket
 import constants
 import threading
@@ -16,7 +17,15 @@ def handle_client(conn, addr):
         print(f'Received from { addr }')
 
         if command == constants.LIST_ALL:
-            pass
+            data = {}
+            for r, d, f in os.walk(constants.PATH):
+                if r != constants.PATH:
+                    data[os.path.basename(r)] = f
+            data_string = json.dumps(data)
+
+            conn.send(bytes('[600] LIST RETRIEVED', constants.FORMAT))
+            conn.send(bytes(data_string, constants.FORMAT))
+
         elif command == constants.CREATE_BUCKET:
             new_bucket = constants.PATH + f'/{ recv[1] }'
             try:
