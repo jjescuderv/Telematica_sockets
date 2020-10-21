@@ -7,21 +7,20 @@ def main():
     print('[CONNECTING] Connecting to server... ')
     server_tuple = (constants.SERVER_ADDRESS, constants.PORT)
     client_socket.connect(server_tuple)
-    local_tuple = client_socket.getsockname()
-    print(f'[CONNECTED] Connected from { local_tuple }')
+    print(client_socket.recv(constants.RCV_BUFFER_SIZE).decode(constants.FORMAT))
+    command = ''
 
-    command = input()
-    #command = command_input.split()
     while command != constants.DISCONNECT_COMMAND:
-        if command == constants.SEND_COMMAND:
-            data = input('Enter data: ')
+        client_input = input()
+        client_arr = client_input.split()
+        command = client_arr[0]
+        if command == '':
+            print("Invalid input")
         else:
-            data = 'Bad command'
-            
-        client_socket.send(bytes((command + ' ' + data), constants.FORMAT))
-        command = input()
+            client_socket.send(bytes(client_input, constants.FORMAT))
 
-    client_socket.send(bytes((command), constants.FORMAT))
+        print(client_socket.recv(constants.RCV_BUFFER_SIZE).decode(constants.FORMAT))
+
     client_socket.close()
 
 if __name__ == "__main__":
