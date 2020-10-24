@@ -1,9 +1,8 @@
 import os
-#import socket
-# SERVER_ADDRESS = socket.gethostbyname(socket.gethostname())
+import socket
 
 FORMAT = 'utf-8'
-SERVER_ADDRESS = '127.0.0.1'
+SERVER_ADDRESS = socket.gethostbyname(socket.gethostname())
 PORT = 9090
 BACKLOG = 10
 RCV_BUFFER_SIZE = 1024
